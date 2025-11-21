@@ -1,0 +1,311 @@
+/* Estilos do frontend */
+.whatsapp-login-form {
+	margin: 20px 0;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background: #f9f9f9;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.whatsapp-login-header {
+	margin-bottom: 20px;
+	padding-bottom: 15px;
+	border-bottom: 2px solid #e0e0e0;
+}
+
+.whatsapp-login-title {
+	margin: 0 0 8px 0;
+	font-size: 18px;
+	font-weight: 600;
+	color: #333;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.whatsapp-login-subtitle {
+	margin: 0;
+	font-size: 13px;
+	color: #666;
+	font-style: italic;
+}
+
+.whatsapp-login-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.whatsapp-login-field {
+	display: flex;
+	flex-direction: column;
+}
+
+.whatsapp-login-field label {
+	font-weight: 600;
+	margin-bottom: 8px;
+	color: #333;
+	font-size: 14px;
+}
+
+.whatsapp-login-field label .required {
+	color: #d32f2f;
+	margin-left: 3px;
+}
+
+.whatsapp-login-field input {
+	padding: 12px;
+	border: 2px solid #ddd;
+	border-radius: 6px;
+	font-size: 15px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.whatsapp-login-field input:focus {
+	outline: none;
+	border-color: #25D366;
+	box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+}
+
+.whatsapp-login-field input:invalid:not(:placeholder-shown) {
+	border-color: #d32f2f;
+}
+
+.whatsapp-login-field .description {
+	font-size: 12px;
+	color: #666;
+	margin-top: 6px;
+	line-height: 1.4;
+}
+
+.whatsapp-login-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 14px 24px;
+	font-size: 16px;
+	font-weight: 600;
+	background: #25D366;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	width: 100%;
+	position: relative;
+	min-height: 48px;
+}
+
+.whatsapp-login-button:hover:not(:disabled) {
+	background: #20BA5A;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-login-button:active:not(:disabled) {
+	transform: translateY(0);
+}
+
+.whatsapp-login-button:disabled {
+	background: #ccc;
+	cursor: not-allowed;
+	opacity: 0.7;
+}
+
+.whatsapp-login-button.loading .button-text {
+	opacity: 0;
+}
+
+.whatsapp-login-button.loading .button-loader {
+	display: inline-flex !important;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.whatsapp-icon {
+	font-size: 20px;
+	line-height: 1;
+}
+
+.whatsapp-login-message {
+	margin-top: 10px;
+	padding: 14px 16px;
+	border-radius: 6px;
+	display: none;
+	font-size: 14px;
+	line-height: 1.5;
+	animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.whatsapp-login-message.show {
+	display: block;
+}
+
+.whatsapp-login-message.success {
+	background: #d4edda;
+	color: #155724;
+	border: 2px solid #c3e6cb;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.whatsapp-login-message.success::before {
+	content: '✅';
+	font-size: 18px;
+}
+
+.whatsapp-login-message.error {
+	background: #f8d7da;
+	color: #721c24;
+	border: 2px solid #f5c6cb;
+	cursor: pointer;
+	position: relative;
+	padding-right: 35px;
+}
+
+.whatsapp-login-message.error::after {
+	content: '✕';
+	position: absolute;
+	right: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 18px;
+	opacity: 0.7;
+}
+
+.whatsapp-login-message.error:hover::after {
+	opacity: 1;
+}
+
+.whatsapp-login-message.loading {
+	background: #fff3cd;
+	color: #856404;
+	border: 2px solid #ffeaa7;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.whatsapp-login-message strong {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+
+.whatsapp-login-message .spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid currentColor;
+	border-top-color: transparent;
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.whatsapp-login-alternative {
+	margin-top: 15px;
+	padding: 12px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	border-left: 4px solid #ff9800;
+}
+
+.whatsapp-login-alternative .alternative-text {
+	margin: 0;
+	font-size: 13px;
+	color: #666;
+	line-height: 1.5;
+}
+
+.whatsapp-login-alternative .alternative-text strong {
+	color: #ff9800;
+}
+
+/* Posicionamento - sempre após o formulário tradicional */
+.whatsapp-login-form {
+	margin-top: 30px;
+	padding-top: 25px;
+	border-top: 2px solid #e0e0e0;
+	clear: both;
+}
+
+/* Separação visual clara do formulário tradicional */
+.whatsapp-login-form::before {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 0;
+	margin-bottom: 0;
+}
+
+/* Garante que aparece após o formulário WooCommerce */
+form.woocommerce-form-login + .whatsapp-login-form,
+form.login + .whatsapp-login-form {
+	margin-top: 30px;
+	padding-top: 25px;
+	border-top: 2px solid #e0e0e0;
+}
+
+/* Remove bordas duplicadas se já tiver separador */
+.whatsapp-login-form[data-position="after"] {
+	border-top: 2px solid #e0e0e0;
+	margin-top: 30px;
+	padding-top: 25px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+	.whatsapp-login-form {
+		padding: 15px;
+		margin: 15px 0;
+	}
+	
+	.whatsapp-login-title {
+		font-size: 16px;
+	}
+	
+	.whatsapp-login-button {
+		padding: 12px 20px;
+		font-size: 15px;
+	}
+}
+
+/* Acessibilidade */
+.whatsapp-login-message[role="alert"] {
+	/* Garante que leitores de tela anunciem mudanças */
+}
+
+/* Prioridade visual: formulário tradicional deve ser mais destacado */
+.whatsapp-login-form {
+	opacity: 0.95;
+}
+
+/* Melhora contraste para leitura */
+.whatsapp-login-message {
+	word-wrap: break-word;
+}
+
