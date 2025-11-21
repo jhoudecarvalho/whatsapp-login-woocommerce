@@ -15,6 +15,24 @@
 
 ## 2. Conectar e Fazer Push
 
+### Opção A: Usando o Script Helper (Recomendado)
+
+Após criar o repositório no GitHub, execute:
+
+```bash
+cd /home/cloudcaos-sinergia/htdocs/sinergia.cloudcaos.com.br/wp-content/plugins/whatsapp-login-woocommerce
+
+# Execute o script (substitua SEU_USUARIO pelo seu usuário do GitHub)
+./push-to-github.sh SEU_USUARIO
+```
+
+O script irá:
+- Verificar se o repositório existe
+- Configurar o remote
+- Fazer o push automaticamente
+
+### Opção B: Manual
+
 Após criar o repositório, o GitHub mostrará instruções. Execute os seguintes comandos:
 
 ```bash
@@ -30,7 +48,6 @@ git remote add origin https://github.com/SEU_USUARIO/whatsapp-login-woocommerce.
 git remote -v
 
 # Fazer push
-git branch -M main
 git push -u origin main
 ```
 
