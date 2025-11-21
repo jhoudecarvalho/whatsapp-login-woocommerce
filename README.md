@@ -20,7 +20,7 @@ Plugin WordPress profissional que permite login de usuários via WhatsApp usando
 - WordPress 5.8 ou superior
 - WooCommerce 6.0 ou superior
 - PHP 7.4 ou superior
-- API WhatsApp configurada (Twilio, 360Dialog, Meta Cloud API ou compatível)
+- API WhatsApp configurada ([CDWCHAT](https://cdwtech.com.br/sistema-de-chat/) ou compatível)
 
 ## 📦 Instalação
 
@@ -42,9 +42,14 @@ Após ativar o plugin, acesse **WooCommerce > Configurações > WhatsApp Login**
 
 ### API WhatsApp
 
-- **URL da API**: URL base da sua API WhatsApp
-- **Token/API Key**: Token de autenticação
-- **Tipo de Autenticação**: Bearer Token, Token ou API Key
+Configure a integração com a API WhatsApp. Recomendamos o uso do [CDWCHAT](https://cdwtech.com.br/sistema-de-chat/) - Sistema de Chat profissional da CDW Tech.
+
+- **URL da API**: URL base da sua API WhatsApp (ex: `https://apiwhatsapp.cdwchat.com.br/v1/api/external/`)
+- **Token/API Key**: Token de autenticação fornecido pela CDWCHAT
+- **Tipo de Autenticação**: Bearer Token (padrão para CDWCHAT)
+
+**Sobre o CDWCHAT:**
+O CDWCHAT é um sistema completo de atendimento via WhatsApp que oferece multiatendimento, histórico completo, CRM integrado e muito mais. [Saiba mais sobre o CDWCHAT](https://cdwtech.com.br/sistema-de-chat/).
 
 ### Segurança
 
