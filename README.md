@@ -38,37 +38,123 @@ Plugin WordPress profissional que permite login de usuários via WhatsApp usando
 
 ## ⚙️ Configuração
 
-Após ativar o plugin, acesse **WooCommerce > Configurações > WhatsApp Login** para configurar:
+### Passo a Passo Completo
 
-### API WhatsApp
+Após ativar o plugin, siga estes passos para configurar:
+
+#### 1. Acessar as Configurações
+
+1. No painel administrativo do WordPress, vá em **WooCommerce**
+2. Clique em **Configurações**
+3. Na barra de abas superior, localize e clique em **WhatsApp Login**
+
+#### 2. Configurar API WhatsApp
 
 Configure a integração com a API WhatsApp. Recomendamos o uso do [CDWCHAT](https://cdwtech.com.br/sistema-de-chat/) - Sistema de Chat profissional da CDW Tech.
 
-- **URL da API**: URL base da sua API WhatsApp (ex: `https://apiwhatsapp.cdwchat.com.br/v1/api/external/`)
-- **Token/API Key**: Token de autenticação fornecido pela CDWCHAT
-- **Tipo de Autenticação**: Bearer Token (padrão para CDWCHAT)
+**Campos a preencher:**
+
+- **URL da API**: 
+  - Cole a URL base da sua API WhatsApp
+  - Exemplo para CDWCHAT: `https://apiwhatsapp.cdwchat.com.br/v1/api/external/SEU_ID_AQUI`
+  - ⚠️ **Importante**: Substitua `SEU_ID_AQUI` pelo ID único fornecido pela CDWCHAT
+
+- **Token/API Key**: 
+  - Cole o token de autenticação fornecido pela CDWCHAT
+  - Este token é gerado no painel do CDWCHAT
+  - ⚠️ **Importante**: Mantenha este token seguro e não compartilhe
+
+- **Tipo de Autenticação**: 
+  - Selecione **Bearer Token** (padrão para CDWCHAT)
+  - Esta é a opção recomendada para integração com CDWCHAT
 
 **Sobre o CDWCHAT:**
 O CDWCHAT é um sistema completo de atendimento via WhatsApp que oferece multiatendimento, histórico completo, CRM integrado e muito mais. [Saiba mais sobre o CDWCHAT](https://cdwtech.com.br/sistema-de-chat/).
 
-### Segurança
+#### 3. Configurar Segurança
 
-- **Tempo de Expiração do Token**: Minutos até o link expirar (padrão: 15)
-- **Máximo de Tentativas**: Número máximo de tentativas por telefone a cada hora (padrão: 3)
-- **Janela de Tempo**: Janela de tempo para rate limiting em minutos (padrão: 60)
+Ajuste as configurações de segurança conforme sua necessidade:
 
-### Personalização de Mensagem
+- **Tempo de Expiração do Token**: 
+  - Padrão: 15 minutos
+  - Define quanto tempo o link de login permanece válido
+  - Recomendado: entre 10 e 30 minutos
 
-Personalize o template da mensagem WhatsApp usando as variáveis:
-- `{nome_loja}` - Nome da loja
-- `{link}` - Link mágico de login
+- **Máximo de Tentativas**: 
+  - Padrão: 3 tentativas
+  - Limite de tentativas de login por telefone a cada hora
+  - Ajuda a prevenir abuso e ataques
+
+- **Janela de Tempo**: 
+  - Padrão: 60 minutos
+  - Período em que o limite de tentativas é contabilizado
+  - Recomendado: manter em 60 minutos
+
+#### 4. Personalizar Mensagem WhatsApp
+
+Personalize o template da mensagem que será enviada aos usuários:
+
+**Variáveis disponíveis:**
+- `{nome_loja}` - Nome da loja (obtido automaticamente do WordPress)
+- `{link}` - Link mágico de login (gerado automaticamente)
 - `{expiracao}` - Tempo de expiração em minutos
 
-### Exibição
+**Template padrão:**
+```
+Olá! 👋
 
-- **Ativar Login WhatsApp**: Ativa/desativa o formulário
-- **Texto do Botão**: Texto exibido no botão (padrão: "Entrar com WhatsApp")
-- **Posição do Botão**: Onde exibir o formulário (após o formulário padrão)
+Alguém solicitou login em {nome_loja}.
+
+Clique no link abaixo para entrar:
+{link}
+
+Este link expira em {expiracao} minutos.
+
+Não solicitou? Ignore esta mensagem.
+```
+
+**Dicas:**
+- Você pode personalizar completamente a mensagem
+- Mantenha o `{link}` na mensagem (obrigatório para funcionar)
+- Use emojis para tornar a mensagem mais amigável
+- Seja claro sobre a expiração do link
+
+#### 5. Configurar Exibição
+
+Configure onde e como o formulário será exibido:
+
+- **Ativar Login WhatsApp**: 
+  - Marque esta opção para ativar o formulário
+  - Se desmarcado, o formulário não aparecerá
+
+- **Texto do Botão**: 
+  - Padrão: "Entrar com WhatsApp"
+  - Personalize o texto do botão conforme sua preferência
+
+- **Posição do Botão**: 
+  - **Depois do formulário padrão** (recomendado): O formulário WhatsApp aparece após o link "Perdeu sua senha?"
+  - **Antes do formulário padrão**: O formulário WhatsApp aparece antes do formulário tradicional
+
+#### 6. Salvar Configurações
+
+Após preencher todas as configurações:
+
+1. Role a página até o final
+2. Clique no botão **Salvar alterações**
+3. Aguarde a mensagem de confirmação
+4. Teste o login via WhatsApp para verificar se está funcionando
+
+#### 7. Testar a Configuração
+
+Para testar se tudo está funcionando:
+
+1. Acesse a página de login do WooCommerce (Minha Conta)
+2. Role até o formulário "Login Rápido via WhatsApp"
+3. Digite um número de telefone de um usuário cadastrado
+4. Clique em "Entrar com WhatsApp"
+5. Verifique se a mensagem foi recebida no WhatsApp
+6. Clique no link recebido
+7. Verifique se o login foi realizado com sucesso
 
 ## 🎯 Como Funciona
 
@@ -170,13 +256,31 @@ Este plugin é licenciado sob a GPL v2 ou posterior.
 
 ## 👨‍💻 Autor
 
-Desenvolvido por CDWTECH
+**Desenvolvido por:** Jhou de Carvalho  
+**Empresa:** [CDW TECH](https://cdwtech.com.br)
+
+### Sobre o Desenvolvedor
+
+Jhou de Carvalho é desenvolvedor especializado em soluções WordPress/WooCommerce e integrações com WhatsApp. Este plugin foi desenvolvido para facilitar o login de usuários através do WhatsApp, melhorando a experiência do cliente e reduzindo a fricção no processo de autenticação.
+
+### Sobre a CDW TECH
+
+A [CDW TECH](https://cdwtech.com.br) é uma empresa especializada em desenvolvimento web, sistemas de chat, hospedagem e soluções tecnológicas. Oferecemos serviços como:
+
+- **Sistema de Chat (CDWCHAT)** - Atendimento profissional via WhatsApp
+- **Desenvolvimento de Lojas Virtuais**
+- **Hospedagem de Sites e E-mails**
+- **Desenvolvimento Web e Sistemas**
+- **Infraestrutura de Servidor**
+
+**Site:** https://cdwtech.com.br  
+**CDWCHAT:** https://cdwtech.com.br/sistema-de-chat/
 
 ## 📞 Suporte
 
-Para suporte, abra uma issue no GitHub ou entre em contato através do site.
+Para suporte, abra uma issue no GitHub ou entre em contato através do site da [CDW TECH](https://cdwtech.com.br).
 
 ---
 
-**Desenvolvido com ❤️ para a comunidade WordPress/WooCommerce**
+**Desenvolvido com ❤️ Por Jhou de Carvalho - CDW TECH**
 
