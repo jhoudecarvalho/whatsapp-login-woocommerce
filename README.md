@@ -121,19 +121,72 @@ Não solicitou? Ignore esta mensagem.
 
 #### 5. Configurar Exibição
 
-Configure onde e como o formulário será exibido:
+Configure onde e como o formulário será exibido em cada área do site:
+
+##### Configuração Global
 
 - **Ativar Login WhatsApp**: 
-  - Marque esta opção para ativar o formulário
-  - Se desmarcado, o formulário não aparecerá
+  - Marque esta opção para ativar o formulário globalmente
+  - Se desmarcado, o formulário não aparecerá em nenhuma área
 
-- **Texto do Botão**: 
-  - Padrão: "Entrar com WhatsApp"
-  - Personalize o texto do botão conforme sua preferência
+##### Página Minha Conta (My Account)
 
-- **Posição do Botão**: 
-  - **Depois do formulário padrão** (recomendado): O formulário WhatsApp aparece após o link "Perdeu sua senha?"
+- **Exibir na Página Minha Conta**: 
+  - Ativa o botão de login via WhatsApp na página Minha Conta do WooCommerce
+  - Padrão: Ativado
+
+- **Posição na Página Minha Conta**: 
   - **Antes do formulário padrão**: O formulário WhatsApp aparece antes do formulário tradicional
+  - **Depois do formulário padrão** (recomendado): O formulário WhatsApp aparece após o formulário tradicional
+  - **Substituir o formulário padrão**: O formulário WhatsApp substitui completamente o formulário tradicional
+
+- **Texto do Botão (My Account)**: 
+  - Padrão: "Entrar com WhatsApp"
+  - Personalize o texto do botão para esta área
+
+- **Título Personalizado (My Account)**: 
+  - Personalize o título exibido acima do formulário
+  - Deixe vazio para usar o padrão: "Login Rápido via WhatsApp"
+
+- **Descrição Personalizada (My Account)**: 
+  - Personalize a descrição exibida abaixo do título
+  - Deixe vazio para usar o padrão
+
+##### Painel Administrativo (wp-admin)
+
+- **Exibir no Login do Admin**: 
+  - Ativa o botão de login via WhatsApp na tela de login do WordPress (wp-login.php)
+  - Padrão: Desativado (recomendado para segurança)
+
+- **Posição no Login do Admin**: 
+  - **Antes do formulário padrão**: O formulário WhatsApp aparece antes do formulário tradicional
+  - **Depois do formulário padrão**: O formulário WhatsApp aparece após o formulário tradicional
+
+- **Texto do Botão (wp-admin)**: 
+  - Padrão: "Entrar com WhatsApp"
+  - Personalize o texto do botão para esta área
+
+- **Título e Descrição Personalizados (wp-admin)**: 
+  - Personalize título e descrição específicos para o login do admin
+
+##### Página de Checkout
+
+- **Exibir no Checkout**: 
+  - Ativa o botão de login via WhatsApp na página de checkout
+  - Padrão: Ativado
+  - ⚠️ **Nota**: O formulário só aparece para visitantes não logados
+
+- **Posição no Checkout**: 
+  - **Antes das opções de checkout**: O formulário WhatsApp aparece antes das opções de checkout
+  - **Depois das opções de checkout**: O formulário WhatsApp aparece após as opções de checkout
+  - **Junto com as opções de checkout**: O formulário WhatsApp aparece inline com as opções de checkout
+
+- **Texto do Botão (Checkout)**: 
+  - Padrão: "Continuar com WhatsApp"
+  - Personalize o texto do botão para esta área
+
+- **Título e Descrição Personalizados (Checkout)**: 
+  - Personalize título e descrição específicos para o checkout
 
 #### 6. Salvar Configurações
 
@@ -231,6 +284,16 @@ whatsapp-login-woocommerce/
 - `whatsapp_login_redirect` - Filtra URL de redirecionamento após login
 
 ## 📝 Changelog
+
+### 1.1.0
+- ✨ **Novo**: Configurações de exibição por área (My Account, wp-admin, Checkout)
+- ✨ **Novo**: Opções de posicionamento independentes para cada área (antes, depois, substituir, inline)
+- ✨ **Novo**: Mensagens personalizáveis por contexto (título, descrição, texto do botão)
+- ✨ **Novo**: Suporte para múltiplos formulários na mesma página
+- 🔧 **Melhoria**: Lógica condicional de renderização baseada em configurações específicas
+- 🔧 **Melhoria**: Hooks específicos para cada área do site
+- 🐛 **Correção**: IDs duplicados corrigidos usando data-attributes e classes
+- 🔧 **Melhoria**: JavaScript atualizado para suportar múltiplos formulários simultaneamente
 
 ### 1.0.0
 - Versão inicial
