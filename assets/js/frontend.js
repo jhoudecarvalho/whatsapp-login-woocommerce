@@ -5,28 +5,32 @@
 	'use strict';
 
 	$(document).ready(function() {
-		var messageTimeout = null;
+		var messageTimeouts = {};
 
-		// Máscara de telefone com validação em tempo real
-		$('#whatsapp-phone').on('input', function() {
-			var value = $(this).val().replace(/\D/g, '');
+		// Máscara de telefone com validação em tempo real (para todos os inputs)
+		$(document).on('input', '.whatsapp-phone-input', function() {
+			var $input = $(this);
+			var context = $input.data('context') || 'default';
+			var value = $input.val().replace(/\D/g, '');
 			if (value.length <= 11) {
 				value = value.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
 			}
-			$(this).val(value);
+			$input.val(value);
 			
 			// Remove mensagens de erro ao digitar
-			var $message = $('#whatsapp-login-message');
-			if ($message.hasClass('error')) {
+			var $message = $('#whatsapp-login-message-' + context);
+			if ($message.length && $message.hasClass('error')) {
 				$message.removeClass('show error');
 			}
 		});
 
 		// Função para mostrar mensagem por tempo determinado
-		function showMessage($message, type, text, duration) {
-			// Limpa timeout anterior
-			if (messageTimeout) {
-				clearTimeout(messageTimeout);
+		function showMessage($message, type, text, duration, context) {
+			context = context || 'default';
+			
+			// Limpa timeout anterior para este contexto
+			if (messageTimeouts[context]) {
+				clearTimeout(messageTimeouts[context]);
 			}
 
 			$message
@@ -37,29 +41,6 @@
 			// Se for sucesso, mantém visível por mais tempo (15 segundos)
 			if (type === 'success') {
 				duration = duration || 15000;
-				// Toca som de notificação (opcional - descomente se quiser ativar)
-				/*
-				try {
-					// Cria um beep simples usando Web Audio API
-					var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-					var oscillator = audioContext.createOscillator();
-					var gainNode = audioContext.createGain();
-					
-					oscillator.connect(gainNode);
-					gainNode.connect(audioContext.destination);
-					
-					oscillator.frequency.value = 800;
-					oscillator.type = 'sine';
-					
-					gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-					gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-					
-					oscillator.start(audioContext.currentTime);
-					oscillator.stop(audioContext.currentTime + 0.2);
-				} catch(e) {
-					// Ignora erro de áudio
-				}
-				*/
 			}
 
 			// Se for erro, mantém visível até o usuário interagir
@@ -68,17 +49,19 @@
 			}
 
 			// Esconde mensagem após duração especificada
-			messageTimeout = setTimeout(function() {
+			messageTimeouts[context] = setTimeout(function() {
 				$message.removeClass('show');
 			}, duration);
 		}
 
-		// Enviar login
-		$('#whatsapp-login-btn').on('click', function() {
+		// Enviar login (usando delegação de eventos para múltiplos formulários)
+		$(document).on('click', '.whatsapp-login-button', function() {
 			var $btn = $(this);
-			var $message = $('#whatsapp-login-message');
-			var $phone = $('#whatsapp-phone');
-			var $alternative = $('#whatsapp-login-alternative');
+			var context = $btn.data('context') || 'default';
+			var $form = $btn.closest('.whatsapp-login-form');
+			var $message = $('#whatsapp-login-message-' + context);
+			var $phone = $form.find('.whatsapp-phone-input');
+			var $alternative = $('#whatsapp-login-alternative-' + context);
 			var phone = $phone.val().replace(/\D/g, '');
 
 			// Validação no cliente antes de enviar
@@ -87,7 +70,8 @@
 					$message,
 					'error',
 					'<strong>Telefone inválido</strong><br>Digite um número válido com DDD (ex: 44 99999-9999)',
-					0
+					0,
+					context
 				);
 				$phone.focus();
 				return;
@@ -99,7 +83,8 @@
 					$message,
 					'error',
 					'<strong>Formato inválido</strong><br>O número deve ter entre 10 e 15 dígitos',
-					0
+					0,
+					context
 				);
 				$phone.focus();
 				return;
@@ -111,7 +96,8 @@
 				$message,
 				'loading',
 				'<span class="spinner"></span> Enviando link para seu WhatsApp...',
-				0
+				0,
+				context
 			);
 
 			// Esconde alternativa em caso de erro anterior
@@ -137,7 +123,8 @@
 							$message,
 							'success',
 							response.data.message || '✅ Link enviado para seu WhatsApp! Clique no link para acessar sua conta.',
-							15000
+							15000,
+							context
 						);
 						$phone.val('').blur();
 					} else {
@@ -150,7 +137,8 @@
 							$message,
 							'error',
 							'<strong>Erro</strong><br>' + errorMsg,
-							0
+							0,
+							context
 						);
 						
 						// Mostra alternativa de login tradicional
@@ -173,7 +161,8 @@
 						$message,
 						'error',
 						'<strong>Erro de Conexão</strong><br>' + errorMsg,
-						0
+						0,
+						context
 					);
 					
 					// Mostra alternativa de login tradicional

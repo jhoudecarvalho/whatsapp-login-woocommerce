@@ -158,30 +158,108 @@ class Settings_Page extends \WC_Settings_Page {
 			array(
 				'title' => __( 'Configurações de Exibição', 'whatsapp-login-woocommerce' ),
 				'type'  => 'title',
-				'desc'  => __( 'Configure onde e como o formulário de login será exibido.', 'whatsapp-login-woocommerce' ),
+				'desc'  => __( 'Configure onde e como o formulário de login será exibido em cada área do site.', 'whatsapp-login-woocommerce' ),
 				'id'    => 'whatsapp_login_display_settings',
 			),
 
 			array(
 				'title'    => __( 'Ativar Login WhatsApp', 'whatsapp-login-woocommerce' ),
-				'desc'     => __( 'Ativa o login via WhatsApp', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Ativa o login via WhatsApp globalmente', 'whatsapp-login-woocommerce' ),
 				'id'       => 'whatsapp_login_enabled',
 				'type'     => 'checkbox',
 				'default'  => 'yes',
 			),
 
 			array(
-				'title'    => __( 'Texto do Botão', 'whatsapp-login-woocommerce' ),
-				'desc'     => __( 'Texto exibido no botão de login', 'whatsapp-login-woocommerce' ),
-				'id'       => 'whatsapp_login_button_text',
-				'type'     => 'text',
-				'default'  => __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ),
+				'type' => 'sectionend',
+				'id'   => 'whatsapp_login_display_settings',
+			),
+
+			// ============================================
+			// PÁGINA MINHA CONTA (MY ACCOUNT)
+			// ============================================
+			array(
+				'title' => __( 'Página Minha Conta (My Account)', 'whatsapp-login-woocommerce' ),
+				'type'  => 'title',
+				'desc'  => __( 'Configure a exibição do login via WhatsApp na página de login/registro do WooCommerce.', 'whatsapp-login-woocommerce' ),
+				'id'    => 'whatsapp_login_myaccount_settings',
 			),
 
 			array(
-				'title'    => __( 'Posição do Botão', 'whatsapp-login-woocommerce' ),
-				'desc'     => __( 'Onde exibir o formulário de login', 'whatsapp-login-woocommerce' ),
-				'id'       => 'whatsapp_login_position',
+				'title'    => __( 'Exibir na Página Minha Conta', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Ativa o botão de login via WhatsApp na página Minha Conta', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_show_myaccount',
+				'type'     => 'checkbox',
+				'default'  => 'yes',
+			),
+
+			array(
+				'title'    => __( 'Posição na Página Minha Conta', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Onde exibir o formulário na página Minha Conta', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_myaccount_position',
+				'type'     => 'select',
+				'default'  => 'after',
+				'options'  => array(
+					'before' => __( 'Antes do formulário padrão', 'whatsapp-login-woocommerce' ),
+					'after'  => __( 'Depois do formulário padrão', 'whatsapp-login-woocommerce' ),
+					'replace' => __( 'Substituir o formulário padrão', 'whatsapp-login-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'    => __( 'Texto do Botão (My Account)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Texto exibido no botão de login na página Minha Conta', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_myaccount_button_text',
+				'type'     => 'text',
+				'default'  => __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ),
+				'css'      => 'width: 100%; max-width: 400px;',
+			),
+
+			array(
+				'title'    => __( 'Título Personalizado (My Account)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Título exibido acima do formulário (deixe vazio para usar o padrão)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_myaccount_title',
+				'type'     => 'text',
+				'default'  => '',
+				'css'      => 'width: 100%; max-width: 400px;',
+			),
+
+			array(
+				'title'    => __( 'Descrição Personalizada (My Account)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Descrição exibida abaixo do título (deixe vazio para usar o padrão)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_myaccount_description',
+				'type'     => 'textarea',
+				'default'  => '',
+				'css'      => 'width: 100%; max-width: 600px; height: 80px;',
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id'   => 'whatsapp_login_myaccount_settings',
+			),
+
+			// ============================================
+			// PAINEL ADMINISTRATIVO (WP-ADMIN)
+			// ============================================
+			array(
+				'title' => __( 'Painel Administrativo (wp-admin)', 'whatsapp-login-woocommerce' ),
+				'type'  => 'title',
+				'desc'  => __( 'Configure a exibição do login via WhatsApp na tela de login do WordPress admin.', 'whatsapp-login-woocommerce' ),
+				'id'    => 'whatsapp_login_wpadmin_settings',
+			),
+
+			array(
+				'title'    => __( 'Exibir no Login do Admin', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Ativa o botão de login via WhatsApp na tela de login do WordPress (wp-login.php)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_show_wpadmin',
+				'type'     => 'checkbox',
+				'default'  => 'no',
+			),
+
+			array(
+				'title'    => __( 'Posição no Login do Admin', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Onde exibir o formulário na tela de login do admin', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_wpadmin_position',
 				'type'     => 'select',
 				'default'  => 'after',
 				'options'  => array(
@@ -191,8 +269,98 @@ class Settings_Page extends \WC_Settings_Page {
 			),
 
 			array(
+				'title'    => __( 'Texto do Botão (wp-admin)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Texto exibido no botão de login na tela de login do admin', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_wpadmin_button_text',
+				'type'     => 'text',
+				'default'  => __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ),
+				'css'      => 'width: 100%; max-width: 400px;',
+			),
+
+			array(
+				'title'    => __( 'Título Personalizado (wp-admin)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Título exibido acima do formulário (deixe vazio para usar o padrão)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_wpadmin_title',
+				'type'     => 'text',
+				'default'  => '',
+				'css'      => 'width: 100%; max-width: 400px;',
+			),
+
+			array(
+				'title'    => __( 'Descrição Personalizada (wp-admin)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Descrição exibida abaixo do título (deixe vazio para usar o padrão)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_wpadmin_description',
+				'type'     => 'textarea',
+				'default'  => '',
+				'css'      => 'width: 100%; max-width: 600px; height: 80px;',
+			),
+
+			array(
 				'type' => 'sectionend',
-				'id'   => 'whatsapp_login_display_settings',
+				'id'   => 'whatsapp_login_wpadmin_settings',
+			),
+
+			// ============================================
+			// PÁGINA DE CHECKOUT
+			// ============================================
+			array(
+				'title' => __( 'Página de Checkout', 'whatsapp-login-woocommerce' ),
+				'type'  => 'title',
+				'desc'  => __( 'Configure a exibição do login via WhatsApp durante o processo de finalização de compra.', 'whatsapp-login-woocommerce' ),
+				'id'    => 'whatsapp_login_checkout_settings',
+			),
+
+			array(
+				'title'    => __( 'Exibir no Checkout', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Ativa o botão de login via WhatsApp na página de checkout', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_show_checkout',
+				'type'     => 'checkbox',
+				'default'  => 'yes',
+			),
+
+			array(
+				'title'    => __( 'Posição no Checkout', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Onde exibir o formulário na página de checkout', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_checkout_position',
+				'type'     => 'select',
+				'default'  => 'before',
+				'options'  => array(
+					'before' => __( 'Antes das opções de checkout', 'whatsapp-login-woocommerce' ),
+					'after'  => __( 'Depois das opções de checkout', 'whatsapp-login-woocommerce' ),
+					'inline' => __( 'Junto com as opções de checkout', 'whatsapp-login-woocommerce' ),
+				),
+			),
+
+			array(
+				'title'    => __( 'Texto do Botão (Checkout)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Texto exibido no botão de login na página de checkout', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_checkout_button_text',
+				'type'     => 'text',
+				'default'  => __( 'Continuar com WhatsApp', 'whatsapp-login-woocommerce' ),
+				'css'      => 'width: 100%; max-width: 400px;',
+			),
+
+			array(
+				'title'    => __( 'Título Personalizado (Checkout)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Título exibido acima do formulário (deixe vazio para usar o padrão)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_checkout_title',
+				'type'     => 'text',
+				'default'  => '',
+				'css'      => 'width: 100%; max-width: 400px;',
+			),
+
+			array(
+				'title'    => __( 'Descrição Personalizada (Checkout)', 'whatsapp-login-woocommerce' ),
+				'desc'     => __( 'Descrição exibida abaixo do título (deixe vazio para usar o padrão)', 'whatsapp-login-woocommerce' ),
+				'id'       => 'whatsapp_login_checkout_description',
+				'type'     => 'textarea',
+				'default'  => '',
+				'css'      => 'width: 100%; max-width: 600px; height: 80px;',
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id'   => 'whatsapp_login_checkout_settings',
 			),
 
 		) );

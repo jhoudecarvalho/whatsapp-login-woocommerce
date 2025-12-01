@@ -3,7 +3,7 @@
  * Plugin Name: WhatsApp Login for WooCommerce
  * Plugin URI: https://cdwtech.com.br
  * Description: Permite login de usuários via WhatsApp usando link mágico
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: CDWTECH
  * Author URI: https://cdwtech.com.br
  * Text Domain: whatsapp-login-woocommerce
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constantes do plugin
-define( 'WHATSAPP_LOGIN_VERSION', '1.0.0' );
+define( 'WHATSAPP_LOGIN_VERSION', '1.1.0' );
 define( 'WHATSAPP_LOGIN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WHATSAPP_LOGIN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WHATSAPP_LOGIN_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

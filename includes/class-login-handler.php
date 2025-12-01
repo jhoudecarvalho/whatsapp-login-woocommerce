@@ -64,12 +64,21 @@ class Login_Handler {
 		// Hook para processar login via token
 		add_action( 'init', array( $this, 'process_login_token' ) );
 
-		// Adiciona formulário de login DEPOIS do formulário WooCommerce (fora do form)
-		add_action( 'woocommerce_after_customer_login_form', array( $this, 'render_login_form' ), 10 );
-		// Para formulário global (checkout, etc)
-		add_action( 'woocommerce_login_form_end', array( $this, 'render_login_form_after_form' ), 20 );
-		// Para login padrão do WordPress
-		add_action( 'login_form', array( $this, 'render_login_form' ), 20 );
+		// Hook para página Minha Conta (My Account)
+		add_action( 'woocommerce_after_customer_login_form', array( $this, 'render_myaccount_login_form' ), 10 );
+		add_action( 'woocommerce_before_customer_login_form', array( $this, 'render_myaccount_login_form' ), 10 );
+		
+		// Hook para formulário de login global do WooCommerce
+		add_action( 'woocommerce_login_form_end', array( $this, 'render_myaccount_login_form_after_form' ), 20 );
+		
+		// Hook para login padrão do WordPress (wp-admin)
+		add_action( 'login_form', array( $this, 'render_wpadmin_login_form' ), 20 );
+		add_action( 'login_footer', array( $this, 'render_wpadmin_login_form' ), 20 );
+		
+		// Hook para página de Checkout
+		add_action( 'woocommerce_before_checkout_form', array( $this, 'render_checkout_login_form' ), 5 );
+		add_action( 'woocommerce_checkout_before_customer_details', array( $this, 'render_checkout_login_form' ), 5 );
+		add_action( 'woocommerce_checkout_after_customer_details', array( $this, 'render_checkout_login_form' ), 5 );
 		
 		// Enqueue scripts e styles
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -385,37 +394,92 @@ class Login_Handler {
 	}
 
 	/**
-	 * Renderiza formulário de login (para hooks após o formulário)
+	 * Verifica se o login está habilitado globalmente
+	 *
+	 * @return bool
 	 */
-	public function render_login_form() {
-		$enabled = get_option( 'whatsapp_login_enabled', 'yes' );
-		if ( $enabled !== 'yes' ) {
+	private function is_globally_enabled() {
+		return get_option( 'whatsapp_login_enabled', 'yes' ) === 'yes';
+	}
+
+	/**
+	 * Renderiza formulário de login na página Minha Conta (My Account)
+	 */
+	public function render_myaccount_login_form() {
+		// Verifica se está habilitado globalmente
+		if ( ! $this->is_globally_enabled() ) {
 			return;
 		}
 
-		$position = get_option( 'whatsapp_login_position', 'after' );
-		$button_text = get_option( 'whatsapp_login_button_text', __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ) );
-
-		// Carrega template
-		$template_path = WHATSAPP_LOGIN_PLUGIN_DIR . 'templates/login-form.php';
-		if ( file_exists( $template_path ) ) {
-			include $template_path;
+		// Verifica se está habilitado para My Account
+		$show_myaccount = get_option( 'whatsapp_login_show_myaccount', 'yes' );
+		if ( $show_myaccount !== 'yes' ) {
+			return;
 		}
+
+		// Verifica se estamos na página correta
+		if ( ! is_account_page() ) {
+			return;
+		}
+
+		// Verifica posição
+		$position = get_option( 'whatsapp_login_myaccount_position', 'after' );
+		$current_hook = current_filter();
+
+		// Renderiza apenas no hook correto baseado na posição
+		if ( 'woocommerce_before_customer_login_form' === $current_hook && 'before' !== $position && 'replace' !== $position ) {
+			return;
+		}
+		if ( 'woocommerce_after_customer_login_form' === $current_hook && 'after' !== $position && 'replace' !== $position ) {
+			return;
+		}
+
+		// Se for "replace", esconde o formulário padrão
+		if ( 'replace' === $position ) {
+			?>
+			<style>
+				.woocommerce form.login,
+				.woocommerce form.register {
+					display: none !important;
+				}
+			</style>
+			<?php
+		}
+
+		$button_text = get_option( 'whatsapp_login_myaccount_button_text', __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ) );
+		$this->render_login_form_template( $button_text, 'myaccount' );
 	}
 
 	/**
 	 * Renderiza formulário de login após o fechamento do form (para woocommerce_login_form_end)
 	 * Usa JavaScript para mover o elemento para fora do formulário
 	 */
-	public function render_login_form_after_form() {
-		$enabled = get_option( 'whatsapp_login_enabled', 'yes' );
-		if ( $enabled !== 'yes' ) {
+	public function render_myaccount_login_form_after_form() {
+		// Verifica se está habilitado globalmente
+		if ( ! $this->is_globally_enabled() ) {
+			return;
+		}
+
+		// Verifica se está habilitado para My Account
+		$show_myaccount = get_option( 'whatsapp_login_show_myaccount', 'yes' );
+		if ( $show_myaccount !== 'yes' ) {
+			return;
+		}
+
+		// Verifica se estamos na página correta
+		if ( ! is_account_page() ) {
+			return;
+		}
+
+		$position = get_option( 'whatsapp_login_myaccount_position', 'after' );
+		if ( 'after' !== $position && 'replace' !== $position ) {
 			return;
 		}
 
 		// Renderiza o formulário com um ID especial para ser movido via JS
 		echo '<div id="whatsapp-login-form-temp" style="display:none;">';
-		$this->render_login_form();
+		$button_text = get_option( 'whatsapp_login_myaccount_button_text', __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ) );
+		$this->render_login_form_template( $button_text, 'myaccount' );
 		echo '</div>';
 		
 		// Script para mover o formulário para fora do form após o fechamento
@@ -443,6 +507,119 @@ class Login_Handler {
 		})();
 		</script>
 		<?php
+	}
+
+	/**
+	 * Renderiza formulário de login no wp-admin
+	 */
+	public function render_wpadmin_login_form() {
+		// Verifica se está habilitado globalmente
+		if ( ! $this->is_globally_enabled() ) {
+			return;
+		}
+
+		// Verifica se está habilitado para wp-admin
+		$show_wpadmin = get_option( 'whatsapp_login_show_wpadmin', 'no' );
+		if ( $show_wpadmin !== 'yes' ) {
+			return;
+		}
+
+		// Verifica se estamos na página de login do WordPress
+		if ( ! in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ), true ) ) {
+			return;
+		}
+
+		// Verifica posição
+		$position = get_option( 'whatsapp_login_wpadmin_position', 'after' );
+		$current_hook = current_filter();
+
+		// Renderiza apenas no hook correto baseado na posição
+		if ( 'login_form' === $current_hook && 'before' !== $position ) {
+			return;
+		}
+		if ( 'login_footer' === $current_hook && 'after' !== $position ) {
+			return;
+		}
+
+		$button_text = get_option( 'whatsapp_login_wpadmin_button_text', __( 'Entrar com WhatsApp', 'whatsapp-login-woocommerce' ) );
+		$this->render_login_form_template( $button_text, 'wpadmin' );
+	}
+
+	/**
+	 * Renderiza formulário de login no Checkout
+	 */
+	public function render_checkout_login_form() {
+		// Verifica se está habilitado globalmente
+		if ( ! $this->is_globally_enabled() ) {
+			return;
+		}
+
+		// Verifica se está habilitado para Checkout
+		$show_checkout = get_option( 'whatsapp_login_show_checkout', 'yes' );
+		if ( $show_checkout !== 'yes' ) {
+			return;
+		}
+
+		// Verifica se estamos na página de checkout
+		if ( ! is_checkout() ) {
+			return;
+		}
+
+		// Não exibe se o usuário já estiver logado
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		// Verifica posição
+		$position = get_option( 'whatsapp_login_checkout_position', 'before' );
+		$current_hook = current_filter();
+
+		// Renderiza apenas no hook correto baseado na posição
+		if ( 'woocommerce_before_checkout_form' === $current_hook && 'before' !== $position && 'inline' !== $position ) {
+			return;
+		}
+		if ( 'woocommerce_checkout_before_customer_details' === $current_hook && 'inline' !== $position ) {
+			return;
+		}
+		if ( 'woocommerce_checkout_after_customer_details' === $current_hook && 'after' !== $position ) {
+			return;
+		}
+
+		$button_text = get_option( 'whatsapp_login_checkout_button_text', __( 'Continuar com WhatsApp', 'whatsapp-login-woocommerce' ) );
+		$this->render_login_form_template( $button_text, 'checkout' );
+	}
+
+	/**
+	 * Renderiza o template do formulário de login
+	 *
+	 * @param string $button_text Texto do botão.
+	 * @param string $context Contexto (myaccount, wpadmin, checkout).
+	 */
+	private function render_login_form_template( $button_text, $context = 'default' ) {
+		$position = get_option( 'whatsapp_login_' . $context . '_position', 'after' );
+		
+		// Busca mensagens personalizadas por contexto
+		$custom_title = get_option( 'whatsapp_login_' . $context . '_title', '' );
+		$custom_description = get_option( 'whatsapp_login_' . $context . '_description', '' );
+		
+		// Define valores padrão se não houver personalização
+		if ( empty( $custom_title ) ) {
+			$custom_title = __( 'Login Rápido via WhatsApp', 'whatsapp-login-woocommerce' );
+		}
+		if ( empty( $custom_description ) ) {
+			$custom_description = __( 'Para usuários já cadastrados na plataforma', 'whatsapp-login-woocommerce' );
+		}
+		
+		// Carrega template
+		$template_path = WHATSAPP_LOGIN_PLUGIN_DIR . 'templates/login-form.php';
+		if ( file_exists( $template_path ) ) {
+			// Define variáveis para o template
+			$template_button_text = $button_text;
+			$template_position = $position;
+			$template_title = $custom_title;
+			$template_description = $custom_description;
+			include $template_path;
+		}
 	}
 }
 
